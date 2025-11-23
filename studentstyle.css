@@ -1,0 +1,404 @@
+
+    /* GLOBAL */
+    body {
+      font-family: "Inter", sans-serif;
+      background: linear-gradient(135deg, #e3edf7, #f5f7fa);
+      margin: 0;
+      padding: 20px;
+      background-image: url('./5810381d-fa14-451a-aba2-1235784bf4f2.png');
+      background-size: cover;
+      backdrop-filter: blur(5px);
+      height: 100%;
+      background-attachment: fixed;
+      min-height: 100vh;
+    }
+
+    h2 {
+      font-weight: 700;
+      color: #1f2937;
+      letter-spacing: -0.5px;
+    }
+
+    /* CARD BASE */
+    .card {
+      max-width: 800px;
+      margin: 25px auto;
+      background: #ffffffcc;
+      backdrop-filter: blur(6px);
+      padding: 35px;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      border: 1px solid #ffffff40;
+      animation: fadeIn .5s ease;
+    }
+
+    .login{
+        max-width: 500px;
+    }
+
+    /* LOGIN CARD SPECIAL BORDER GLOW */
+    .login-card {
+    width: 380px;
+    padding: 32px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
+    text-align: center;
+    }
+
+/* Title */
+.login-card h2 {
+  margin-bottom: 24px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* Input */
+.login-card input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 14px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  font-size: 15px;
+  transition: 0.25s;
+}
+
+.login-card input:focus {
+  border-color: #2563eb;
+  background: #ffffff;
+  outline: none;
+}
+
+/* Button */
+.login-card button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 18px;
+  background: #2563eb;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.login-card button:hover {
+  background: #1e40af;
+  transform: translateY(-2px);
+}
+
+/* Small Note */
+.login-card .note {
+  margin-top: 14px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.loader {
+  width: 55px;
+  height: 55px;
+  border: 6px solid #dbeafe;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+
+
+    @keyframes borderGlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* FORM INPUTS */
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 12px;
+      background: #f0f4f8;
+      border-radius: 12px;
+      border: 1px solid #d1d9e6;
+      font-size: 16px;
+      transition: .25s;
+    }
+
+    input:focus, select:focus {
+      background: #fff;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px #2563eb33;
+      outline: none;
+    }
+
+    /* BUTTONS */
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 18px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: white;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.25s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(37,99,235,0.3);
+    }
+
+    /* RESULT HEADER */
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .header div:nth-child(1) {
+      font-weight: 700;
+      font-size: 22px;
+      color: #111827;
+    }
+
+    .header div:nth-child(2) {
+      color: #4b5563;
+      font-size: 14px;
+    }
+
+    .meta {
+      background: #f8fafc;
+      padding: 15px;
+      border-radius: 14px;
+      margin-bottom: 20px;
+      border: 1px solid #e2e8f0;
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    /* TABLE */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      backdrop-filter: blur(10px);
+      background: #ffffffaa;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th {
+      background: #1f2937;
+      color: white;
+      text-transform: uppercase;
+      font-size: 13px;
+      letter-spacing: 0.6px;
+      padding: 12px;
+    }
+
+    td {
+      padding: 12px;
+      font-size: 15px;
+      border-bottom: 1px solid #e5e7eb;
+      color: #374151;
+    }
+    
+    tr:hover td {
+      background: #f9fafb;
+    }
+
+    .printBtn {
+      padding: 12px 20px;
+      background: #2563eb;
+      border-radius: 10px;
+      margin-top: 20px;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: 600;
+    }
+
+    .printBtn:hover {
+      background: #1e3fae;
+      box-shadow: 0 6px 16px rgba(37,99,235,0.3);
+    }
+
+    @media print {
+  body {
+    padding: 0;
+    background: white !important;
+  }
+
+  /* Hide everything by default */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Show ONLY result area */
+  #resultArea, #resultArea * {
+    visibility: visible;
+  }
+
+  /* Position result area at top for clean PDF */
+  #resultArea {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  /* Hide unwanted elements */
+  button, input, select, #loginCard, #examCard > h2 {
+    display: none !important;
+  }
+}
+
+img{
+    border: 2px solid black;
+    text-align: center;
+    height: 150px;
+    border-radius: 10px;
+}
+
+.clgbaner{
+    text-align: center;
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 480px) {
+
+  body {
+    padding: 0;
+    background-size: cover;
+    background-position: center;
+    backdrop-filter: blur(3px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* Main card */
+  .card {
+    max-width: 100%;
+    padding: 20px;
+    border-radius: 14px;
+    margin: 15px auto;
+  }
+
+  /* Login container */
+  .login {
+    max-width: 100%;
+  }
+
+  /* Login card */
+  .login-card {
+    width: 100%;
+    padding: 24px;
+    border-radius: 14px;
+  }
+
+  /* Title */
+  .login-card h2 {
+    font-size: 20px;
+    margin-bottom: 18px;
+  }
+
+  /* Inputs */
+  .login-card input {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+
+  /* Buttons */
+  .login-card button,
+  button {
+    padding: 12px;
+    font-size: 15px;
+    border-radius: 10px;
+  }
+
+  /* Notes */
+  .login-card .note {
+    font-size: 12px;
+  }
+
+  /* Header */
+  .header div:nth-child(1) {
+    font-size: 18px;
+  }
+
+  .header div:nth-child(2) {
+    font-size: 12px;
+  }
+
+  /* Meta box */
+  .meta {
+    font-size: 13px;
+    padding: 12px;
+  }
+
+  /* Table */
+  table {
+    font-size: 14px;
+    border-radius: 10px;
+  }
+
+  th {
+    font-size: 11px;
+    padding: 10px;
+  }
+
+  td {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  /* Print button */
+  .printBtn {
+    font-size: 15px;
+    padding: 10px 14px;
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Loader */
+  .loader {
+    width: 45px;
+    height: 45px;
+    border-width: 5px;
+  }
+
+  /* Image fix */
+  img {
+    height: 70px;
+    border-radius: 8px;
+  }
+
+  /* Center banner */
+  .clgbaner {
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  input, select{
+    width: 94%;
+  }
+}

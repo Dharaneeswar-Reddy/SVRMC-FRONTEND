@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Student Panel -  Result</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./studentstyle.css">
+</head>
+
+<body>
+
+  <!-- LOGIN CARD -->
+  <div class="clgbaner">
+    <img src="./Group 1.png" alt="">
+  </div>
+  <div class="card login" id="loginCard">
+    <h2 style="text-align:center;">Student Login</h2>
+
+    <input id="loginReg" placeholder="Enter Roll Number" />
+    <input id="loginPass" placeholder="Enter Password" type="password" />
+    <button onclick="studentLogin()">Login</button>
+  </div>
+
+  <!-- EXAM CARD -->
+  <div class="card" id="examCard" style="display:none;">
+    <h2 style="text-align:center;">Select Exam Info</h2>
+
+    <select id="yearSel">
+      <option value="">Select Year</option>
+      <option>December-2024</option>
+      <option>November-2023</option>
+    </select>
+
+    <select id="semSel">
+      <option value="">Select Semester</option>
+      <option>I Sem</option>
+      <option>II Sem</option>
+    </select>
+
+    <select id="typeSel">
+      <option value="">Select Exam Type</option>
+      <option>REGULAR</option>
+      <option>SUPPLY</option>
+    </select>
+
+    <button onclick="fetchExamResult()">Get Result</button>
+
+    <div id="resultArea" style="margin-top:25px;"></div>
+  </div>
+
+
+<script>
+let loggedReg = "";
+
+// LOGIN
+function studentLogin() {
+  const reg = document.getElementById("loginReg").value.trim();
+  const pass = document.getElementById("loginPass").value.trim();
+
+  if (!reg || !pass) {
+    Swal.fire("Error", "Enter both Roll Number & Password", "error");
+    return;
+  }
+
+  if (reg !== pass) {
+    Swal.fire("Error", "Password must match Roll Number", "error");
+    return;
+  }
+
+  loggedReg = reg;
+
+  Swal.fire("Success", "Login Successful!", "success");
+
+  document.getElementById("loginCard").style.display = "none";
+  document.getElementById("examCard").style.display = "block";
+}
+
+
+// FETCH RESULT
+async function fetchExamResult() {
+  const year = document.getElementById("yearSel").value;
+  const sem = document.getElementById("semSel").value;
+  const type = document.getElementById("typeSel").value;
+
+  if (!year || !sem || !type) {
+    Swal.fire("Warning", "Please select all options", "warning");
+    return;
+  }
+
+  Swal.fire({
+  title: "Fetching Result...",
+  html: `
+    <div style="
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 80px;
+    ">
+      <div class="loader"></div>
+    </div>
+  `,
+  showConfirmButton: false,
+  allowOutsideClick: false,
+  background: "#ffffff",
+});
+
+
+  try {
+    const res = await fetch(
+      `https://svrmc-backend.onrender.com/api/student/${loggedReg}/${encodeURIComponent(year)}/${sem}/${type}`
+    );
+
+    const j = await res.json();
+    Swal.close();
+
+    if (!j.ok) {
+      Swal.fire("Not Found", j.msg || "Result not found", "error");
+      return;
+    }
+
+    renderResult(j.data);
+
+  } catch (err) {
+    Swal.fire("Error", "Server Unreachable", "error");
+  }
+}
+
+
+// RENDER RESULT
+function renderResult(data) {
+  const subjects = data.subjects || [];
+
+  const headerHTML = `
+    <div class="header">
+      <div>S.V.R.M. COLLEGE (AUTONOMOUS) :: NAGARAM</div>
+      <div>Re-Accredited at A level by NAAC</div>
+      <div>${data.exam_info.exam_month_year}, 
+           ${data.exam_info.semester}-${data.exam_info.course} 
+           ${data.exam_info.exam_type}-Results</div>
+    </div>
+
+    <div class="meta">
+      Registered Number: <strong>${data.register_no}</strong><br>
+      Second Language: <strong>${data.second_language || 'N/A'}</strong><br>
+      Total Marks: <strong>${data.total || '--'}</strong><br>
+      Result Status: <strong>${data.result_summary || '--'}</strong>
+    </div>
+  `;
+
+  let tableHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>Subject Code</th>
+          <th>Subject Title</th>
+          <th>CA</th>
+          <th>SEE</th>
+          <th>Total</th>
+          <th>PF</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  subjects.forEach(s => {
+    tableHTML += `
+      <tr>
+        <td>${s.code || ''}</td>
+        <td>${s.title || ''}</td>
+        <td>${s.ca || '--'}</td>
+        <td>${s.see || '--'}</td>
+        <td>${s.total || '--'}</td>
+        <td>${s.pf || '--'}</td>
+      </tr>
+    `;
+  });
+
+  tableHTML += `</tbody></table>`;
+
+  const printBtn = `<button class="printBtn" onclick="window.print()">Print / Save PDF</button>`;
+
+  document.getElementById("resultArea").innerHTML =
+    headerHTML + tableHTML + printBtn;
+}
+
+</script>
+
+</body>
+</html>
