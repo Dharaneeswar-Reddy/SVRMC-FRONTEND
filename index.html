@@ -1,8 +1,9 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
-  <title>Student Panel -  Result</title>
+  <title>Student Panel - Result</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="icon" href="favicon.ico?v=2" type="image/x-icon">
 
@@ -35,9 +36,20 @@
 
     <select id="yearSel">
       <option value="">Select Year</option>
-      <option>December-2024</option>
-      <option>November-2023</option>
+      <option>January-2025</option>
+      <option>February-2025</option>
+      <option>March-2025</option>
+      <option>April-2025</option>
+      <option>May-2025</option>
+      <option>June-2025</option>
+      <option>July-2025</option>
+      <option>August-2025</option>
+      <option>September-2025</option>
       <option>October-2025</option>
+      <option>November-2025</option>
+      <option>December-2025</option>
+
+
     </select>
 
     <select id="semSel">
@@ -64,47 +76,47 @@
   </div>
 
 
-<script>
-let loggedReg = "";
+  <script>
+    let loggedReg = "";
 
-// LOGIN
-function studentLogin() {
-  const reg = document.getElementById("loginReg").value.trim();
-  const pass = document.getElementById("loginPass").value.trim();
+    // LOGIN
+    function studentLogin() {
+      const reg = document.getElementById("loginReg").value.trim();
+      const pass = document.getElementById("loginPass").value.trim();
 
-  if (!reg || !pass) {
-    Swal.fire("Error", "Enter both Roll Number & Password", "error");
-    return;
-  }
+      if (!reg || !pass) {
+        Swal.fire("Error", "Enter both Roll Number & Password", "error");
+        return;
+      }
 
-  if (reg !== pass) {
-    Swal.fire("Error", "Password must match Roll Number", "error");
-    return;
-  }
+      if (reg !== pass) {
+        Swal.fire("Error", "Password must match Roll Number", "error");
+        return;
+      }
 
-  loggedReg = reg;
+      loggedReg = reg;
 
-  Swal.fire("Success", "Login Successful!", "success");
+      Swal.fire("Success", "Login Successful!", "success");
 
-  document.getElementById("loginCard").style.display = "none";
-  document.getElementById("examCard").style.display = "block";
-}
+      document.getElementById("loginCard").style.display = "none";
+      document.getElementById("examCard").style.display = "block";
+    }
 
 
-// FETCH RESULT
-async function fetchExamResult() {
-  const year = document.getElementById("yearSel").value;
-  const sem = document.getElementById("semSel").value;
-  const type = document.getElementById("typeSel").value;
+    // FETCH RESULT
+    async function fetchExamResult() {
+      const year = document.getElementById("yearSel").value;
+      const sem = document.getElementById("semSel").value;
+      const type = document.getElementById("typeSel").value;
 
-  if (!year || !sem || !type) {
-    Swal.fire("Warning", "Please select all options", "warning");
-    return;
-  }
+      if (!year || !sem || !type) {
+        Swal.fire("Warning", "Please select all options", "warning");
+        return;
+      }
 
-  Swal.fire({
-  title: "Fetching Result...",
-  html: `
+      Swal.fire({
+        title: "Fetching Result...",
+        html: `
     <div style="
       display: flex;
       justify-content: center;
@@ -114,38 +126,38 @@ async function fetchExamResult() {
       <div class="loader"></div>
     </div>
   `,
-  showConfirmButton: false,
-  allowOutsideClick: false,
-  background: "#ffffff",
-});
+        showConfirmButton: false,
+        allowOutsideClick: false,
+        background: "#ffffff",
+      });
 
 
-  try {
-    const res = await fetch(
-      `https://svrmc-backend.onrender.com/api/student/${loggedReg}/${encodeURIComponent(year)}/${sem}/${type}`
-    );
+      try {
+        const res = await fetch(
+          `https://svrmc-backend.onrender.com/api/student/${loggedReg}/${encodeURIComponent(year)}/${sem}/${type}`
+        );
 
-    const j = await res.json();
-    Swal.close();
+        const j = await res.json();
+        Swal.close();
 
-    if (!j.ok) {
-      Swal.fire("Not Found", j.msg || "Result not found", "error");
-      return;
+        if (!j.ok) {
+          Swal.fire("Not Found", j.msg || "Result not found", "error");
+          return;
+        }
+
+        renderResult(j.data);
+
+      } catch (err) {
+        Swal.fire("Error", "Server Unreachable", "error");
+      }
     }
 
-    renderResult(j.data);
 
-  } catch (err) {
-    Swal.fire("Error", "Server Unreachable", "error");
-  }
-}
+    // RENDER RESULT
+    function renderResult(data) {
+      const subjects = data.subjects || [];
 
-
-// RENDER RESULT
-function renderResult(data) {
-  const subjects = data.subjects || [];
-
-  const headerHTML = `
+      const headerHTML = `
     <div class="header">
       <div>S.V.R.M. COLLEGE (AUTONOMOUS) :: NAGARAM</div>
       <div>Re-Accredited at B++ level by NAAC</div>
@@ -162,7 +174,7 @@ function renderResult(data) {
     </div>
   `;
 
-  let tableHTML = `
+      let tableHTML = `
     <table>
       <thead>
         <tr>
@@ -177,8 +189,8 @@ function renderResult(data) {
       <tbody>
   `;
 
-  subjects.forEach(s => {
-    tableHTML += `
+      subjects.forEach(s => {
+        tableHTML += `
       <tr>
         <td>${s.code || ''}</td>
         <td>${s.title || ''}</td>
@@ -188,17 +200,18 @@ function renderResult(data) {
         <td>${s.pf || '--'}</td>
       </tr>
     `;
-  });
+      });
 
-  tableHTML += `</tbody></table>`;
+      tableHTML += `</tbody></table>`;
 
-  const printBtn = `<button class="printBtn" onclick="window.print()">Print / Save PDF</button>`;
+      const printBtn = `<button class="printBtn" onclick="window.print()">Print / Save PDF</button>`;
 
-  document.getElementById("resultArea").innerHTML =
-    headerHTML + tableHTML + printBtn;
-}
+      document.getElementById("resultArea").innerHTML =
+        headerHTML + tableHTML + printBtn;
+    }
 
-</script>
+  </script>
 
 </body>
+
 </html>
